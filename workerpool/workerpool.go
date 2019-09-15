@@ -15,11 +15,14 @@ func New(max int) *WorkerPool {
 		max = 1
 	}
 
-	return &WorkerPool{
-		maxWorkersCount: max,
-		task:            make(chan TaskHandler, max),
-		errChan:         make(chan error, 1),
+	p := &WorkerPool{
+		task:    make(chan TaskHandler, 2*max),
+		errChan: make(chan error, 1),
 	}
+
+	go p.loop(max)
+
+	return p
 }
 
 //SetTimeout 设置超时时间
@@ -27,22 +30,9 @@ func (p *WorkerPool) SetTimeout(timeout time.Duration) {
 	p.timeout = timeout
 }
 
-//SingleCall 单程执行(排他)
-// func (p *WorkerPool) SingleCall(fn TaskHandler) {
-// 	p.Mutex.Lock()
-// 	fn()
-// 	p.Mutex.Unlock()
-// }
-
 //Do 添加到工作池，并立即返回
 func (p *WorkerPool) Do(fn TaskHandler) {
-	p.start.Do(func() { //once
-		p.wg.Add(p.maxWorkersCount)
-		go p.loop()
-	})
-
-	if atomic.LoadInt32(&p.closed) == 1 {
-		// 已关闭
+	if p.IsClosed() { // 已关闭
 		return
 	}
 	p.task <- fn
@@ -50,27 +40,22 @@ func (p *WorkerPool) Do(fn TaskHandler) {
 
 //DoWait 添加到工作池，并等待执行完成之后再返回
 func (p *WorkerPool) DoWait(task TaskHandler) {
-	p.start.Do(func() { //once
-		p.wg.Add(p.maxWorkersCount)
-		go p.loop()
-	})
-
-	if atomic.LoadInt32(&p.closed) == 1 { // 已关闭
+	if p.IsClosed() { // 已关闭
 		return
 	}
 
 	doneChan := make(chan struct{})
 	p.task <- func() error {
-		err := task()
-		close(doneChan)
-		return err
+		defer close(doneChan)
+		return task()
 	}
 	<-doneChan
 }
 
-func (p *WorkerPool) loop() {
-	// 启动n个worker
-	for i := 0; i < p.maxWorkersCount; i++ {
+func (p *WorkerPool) loop(maxWorkersCount int) {
+	p.wg.Add(maxWorkersCount) // 最大的工作协程数
+	// 启动max个worker
+	for i := 0; i < maxWorkersCount; i++ {
 		go func() {
 			defer p.wg.Done()
 			// worker 开始干活
@@ -131,4 +116,12 @@ func (p *WorkerPool) IsDone() bool {
 	}
 
 	return len(p.task) == 0
+}
+
+//IsClosed 是否已经关闭
+func (p *WorkerPool) IsClosed() bool {
+	if atomic.LoadInt32(&p.closed) == 1 { // 已关闭
+		return true
+	}
+	return false
 }

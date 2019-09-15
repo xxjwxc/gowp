@@ -13,7 +13,7 @@ func main() {
 		wp.Do(func() error {
 			for j := 0; j < 5; j++ { //每次打印0-10的值
 				//fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
-				time.Sleep(1 * time.Second)
+				time.Sleep(1 * time.Microsecond)
 			}
 			return nil
 		})
@@ -22,7 +22,6 @@ func main() {
 	}
 
 	wp.Wait()
-
 	fmt.Println(wp.IsDone())
 
 	fmt.Println("down")
