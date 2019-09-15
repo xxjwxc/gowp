@@ -1,4 +1,4 @@
-module gowp
+module github.com/xxjwxc/gowp
 
 go 1.13
 

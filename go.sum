@@ -17,11 +17,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/syndtr/goleveldb v1.0.0/go.mod h1:ZVVdQEZoIme9iO1Ch2Jdy24qqXrMMOU6lpPAyBWyWuQ=
-github.com/xxjwxc/public v0.0.0-20190915113632-d369d5187200 h1:Hi8KKUGp+xh+x6WA/3KNmvvEvjcHFKZ6NJOduAL92k4=
-github.com/xxjwxc/public v0.0.0-20190915113632-d369d5187200/go.mod h1:rgW5aGDrLzmJM8NtrtskcxerGFyvn1OK3+Ra52YeZS0=
 github.com/xxjwxc/public v0.0.0-20190915122658-9831b23af2e1 h1:nCgYwrp2ZbumdJvgkyJ3+KXBaLWipRSDUujE0GdNKAU=
 github.com/xxjwxc/public v0.0.0-20190915122658-9831b23af2e1/go.mod h1:rgW5aGDrLzmJM8NtrtskcxerGFyvn1OK3+Ra52YeZS0=
-github.com/xxjwxc/public v1.0.4 h1:C16i87ODAsabmsun+7MEoK7goPjWNGTQOYg+53PzzCw=
 golang.org/x/net v0.0.0-20180906233101-161cd47e91fd/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
