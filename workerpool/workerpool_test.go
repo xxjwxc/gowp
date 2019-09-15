@@ -10,7 +10,8 @@ import (
 
 //template
 func TestWorkerPoolStart(t *testing.T) {
-	wp := New(10)             //Set the maximum number of threads，设置最大线程数
+	wp := New(10) //Set the maximum number of threads，设置最大线程数
+	wp.SetTimeout(time.Millisecond)
 	for i := 0; i < 20; i++ { //Open 20 requests 开启20个请求
 		ii := i
 		wp.Do(func() error {
