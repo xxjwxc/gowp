@@ -16,7 +16,7 @@ func TestWorkerPoolStart(t *testing.T) {
 		wp.Do(func() error {
 			for j := 0; j < 10; j++ {
 				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
-				time.Sleep(1 * time.Second)
+				time.Sleep(1 * time.Millisecond)
 			}
 			//time.Sleep(1 * time.Second)
 			return nil
@@ -39,7 +39,7 @@ func TestWorkerPoolError(t *testing.T) {
 				if ii == 1 {
 					return errors.Cause(errors.New("my test err")) //有err 立即返回
 				}
-				time.Sleep(1 * time.Second)
+				time.Sleep(1 * time.Millisecond)
 			}
 
 			return nil
@@ -67,7 +67,7 @@ func TestWorkerPoolDoWait(t *testing.T) {
 				// if ii == 1 {
 				// 	return errors.New("my test err")
 				// }
-				time.Sleep(1 * time.Second)
+				time.Sleep(1 * time.Millisecond)
 			}
 
 			return nil
@@ -92,7 +92,7 @@ func TestWorkerPoolIsDone(t *testing.T) {
 		wp.Do(func() error {
 			for j := 0; j < 5; j++ {
 				//fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
-				time.Sleep(1 * time.Second)
+				time.Sleep(1 * time.Millisecond)
 			}
 			return nil
 		})
