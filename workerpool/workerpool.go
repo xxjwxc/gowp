@@ -5,6 +5,8 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/xxjwxc/public/myqueue"
+
 	"github.com/xxjwxc/public/mylog"
 )
 
@@ -16,12 +18,12 @@ func New(max int) *WorkerPool {
 	}
 
 	p := &WorkerPool{
-		task:    make(chan TaskHandler, 2*max),
-		errChan: make(chan error, 1),
+		task:         make(chan TaskHandler, 2*max),
+		errChan:      make(chan error, 1),
+		waitingQueue: myqueue.New(),
 	}
 
 	go p.loop(max)
-
 	return p
 }
 
@@ -35,7 +37,8 @@ func (p *WorkerPool) Do(fn TaskHandler) {
 	if p.IsClosed() { // 已关闭
 		return
 	}
-	p.task <- fn
+	p.waitingQueue.Push(fn)
+	//p.task <- fn
 }
 
 //DoWait 添加到工作池，并等待执行完成之后再返回
@@ -45,14 +48,60 @@ func (p *WorkerPool) DoWait(task TaskHandler) {
 	}
 
 	doneChan := make(chan struct{})
-	p.task <- func() error {
+	p.waitingQueue.Push(TaskHandler(func() error {
 		defer close(doneChan)
 		return task()
-	}
+	}))
 	<-doneChan
 }
 
+//Wait 等待工作线程执行结束
+func (p *WorkerPool) Wait() error {
+	p.waitingQueue.Wait() //等待队列结束
+	close(p.task)
+	p.wg.Wait() //等待结束
+	select {
+	case err := <-p.errChan:
+		return err
+	default:
+		return nil
+	}
+}
+
+//IsDone 判断是否完成 (非阻塞)
+func (p *WorkerPool) IsDone() bool {
+	if p == nil || p.task == nil {
+		return true
+	}
+
+	return len(p.task) == 0
+}
+
+//IsClosed 是否已经关闭
+func (p *WorkerPool) IsClosed() bool {
+	if atomic.LoadInt32(&p.closed) == 1 { // 已关闭
+		return true
+	}
+	return false
+}
+
+func (p *WorkerPool) startQueue() {
+	for {
+		fn := p.waitingQueue.Pop().(TaskHandler)
+		if p.IsClosed() { // 已关闭
+			p.waitingQueue.Close()
+			break
+		}
+
+		if fn != nil {
+			p.task <- fn
+		}
+	}
+}
+
 func (p *WorkerPool) loop(maxWorkersCount int) {
+	go p.startQueue() //启动队列
+
 	p.wg.Add(maxWorkersCount) // 最大的工作协程数
 	// 启动max个worker
 	for i := 0; i < maxWorkersCount; i++ {
@@ -95,33 +144,4 @@ func (p *WorkerPool) loop(maxWorkersCount int) {
 			}
 		}()
 	}
-}
-
-//Wait 等待工作线程执行结束
-func (p *WorkerPool) Wait() error {
-	close(p.task)
-	p.wg.Wait() //等待结束
-	select {
-	case err := <-p.errChan:
-		return err
-	default:
-		return nil
-	}
-}
-
-//IsDone 判断是否完成 (非阻塞)
-func (p *WorkerPool) IsDone() bool {
-	if p == nil || p.task == nil {
-		return true
-	}
-
-	return len(p.task) == 0
-}
-
-//IsClosed 是否已经关闭
-func (p *WorkerPool) IsClosed() bool {
-	if atomic.LoadInt32(&p.closed) == 1 { // 已关闭
-		return true
-	}
-	return false
 }

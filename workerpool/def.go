@@ -3,6 +3,8 @@ package workerpool
 import (
 	"sync"
 	"time"
+
+	"github.com/xxjwxc/public/myqueue"
 )
 
 // TaskHandler process .定义函数回调体
@@ -17,9 +19,10 @@ type WorkerPool struct {
 	//sync.Mutex
 	//maxWorkersCount int //最大的工作协程数
 	//start           sync.Once
-	closed  int32
-	errChan chan error    //错误chan
-	timeout time.Duration //最大超时时间
-	wg      sync.WaitGroup
-	task    chan TaskHandler
+	closed       int32
+	errChan      chan error    //错误chan
+	timeout      time.Duration //最大超时时间
+	wg           sync.WaitGroup
+	task         chan TaskHandler
+	waitingQueue *myqueue.MyQueue
 }

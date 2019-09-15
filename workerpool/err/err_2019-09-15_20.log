@@ -1,0 +1,21 @@
+=========================2019-09-15 20:47:01 ========================= 
+my test err
+gowp/workerpool.TestWorkerPoolError.func1
+	/Users/xxj/work/workspace/github/xxjwxc/gowp/workerpool/workerpool_test.go:37
+gowp/workerpool.(*WorkerPool).loop.func1
+	/Users/xxj/work/workspace/github/xxjwxc/gowp/workerpool/workerpool.go:133
+runtime.goexit
+	/usr/local/go/src/runtime/asm_amd64.s:1357
+goroutine 51 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	/usr/local/go/src/runtime/debug/stack.go:24 +0xa1
+github.com/xxjwxc/public/mylog.SaveError(0xc0001883c0, 0x133, 0x11b92cb, 0x3)
+	/Users/xxj/work/path/pkg/mod/github.com/xxjwxc/public@v0.0.0-20190915122658-9831b23af2e1/mylog/mylog.go:100 +0x498
+github.com/xxjwxc/public/mylog.Error(0x11d7480, 0xc000172020)
+	/Users/xxj/work/path/pkg/mod/github.com/xxjwxc/public@v0.0.0-20190915122658-9831b23af2e1/mylog/mylog.go:62 +0x3d5
+gowp/workerpool.(*WorkerPool).loop.func1(0xc0000da780)
+	/Users/xxj/work/workspace/github/xxjwxc/gowp/workerpool/workerpool.go:139 +0x34f
+created by gowp/workerpool.(*WorkerPool).loop
+	/Users/xxj/work/workspace/github/xxjwxc/gowp/workerpool/workerpool.go:108 +0xa1
+
+=========================end=========================
