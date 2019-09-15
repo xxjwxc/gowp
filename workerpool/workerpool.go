@@ -32,8 +32,8 @@ func (p *WorkerPool) SetTimeout(timeout time.Duration) {
 	p.timeout = timeout
 }
 
-//Add to the workpool and return immediately
 //Do 添加到工作池，并立即返回
+//Add to the workpool and return immediately
 func (p *WorkerPool) Do(fn TaskHandler) {
 	if p.IsClosed() { // 已关闭
 		return
@@ -42,8 +42,8 @@ func (p *WorkerPool) Do(fn TaskHandler) {
 	//p.task <- fn
 }
 
-//Add to the workpool and wait for execution to complete before returning
 //DoWait 添加到工作池，并等待执行完成之后再返回
+//Add to the workpool and wait for execution to complete before returning
 func (p *WorkerPool) DoWait(task TaskHandler) {
 	if p.IsClosed() { // closed
 		return
@@ -57,8 +57,8 @@ func (p *WorkerPool) DoWait(task TaskHandler) {
 	<-doneChan
 }
 
-//Waiting for the worker thread to finish executing
 //Wait 等待工作线程执行结束
+//Waiting for the worker thread to finish executing
 func (p *WorkerPool) Wait() error {
 	p.waitingQueue.Wait() //等待队列结束
 	close(p.task)
@@ -71,8 +71,8 @@ func (p *WorkerPool) Wait() error {
 	}
 }
 
-//Determine whether it is complete (non-blocking)
 //IsDone 判断是否完成 (非阻塞)
+//Determine whether it is complete (non-blocking)
 func (p *WorkerPool) IsDone() bool {
 	if p == nil || p.task == nil {
 		return true
@@ -81,8 +81,8 @@ func (p *WorkerPool) IsDone() bool {
 	return len(p.task) == 0
 }
 
-//Has it been closed?
 //IsClosed 是否已经关闭
+//Has it been closed?
 func (p *WorkerPool) IsClosed() bool {
 	if atomic.LoadInt32(&p.closed) == 1 { // closed
 		return true
