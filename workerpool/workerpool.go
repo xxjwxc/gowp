@@ -32,6 +32,7 @@ func (p *WorkerPool) SetTimeout(timeout time.Duration) {
 	p.timeout = timeout
 }
 
+//Add to the workpool and return immediately
 //Do 添加到工作池，并立即返回
 func (p *WorkerPool) Do(fn TaskHandler) {
 	if p.IsClosed() { // 已关闭
@@ -41,9 +42,10 @@ func (p *WorkerPool) Do(fn TaskHandler) {
 	//p.task <- fn
 }
 
+//Add to the workpool and wait for execution to complete before returning
 //DoWait 添加到工作池，并等待执行完成之后再返回
 func (p *WorkerPool) DoWait(task TaskHandler) {
-	if p.IsClosed() { // 已关闭
+	if p.IsClosed() { // closed
 		return
 	}
 
@@ -55,6 +57,7 @@ func (p *WorkerPool) DoWait(task TaskHandler) {
 	<-doneChan
 }
 
+//Waiting for the worker thread to finish executing
 //Wait 等待工作线程执行结束
 func (p *WorkerPool) Wait() error {
 	p.waitingQueue.Wait() //等待队列结束
@@ -68,6 +71,7 @@ func (p *WorkerPool) Wait() error {
 	}
 }
 
+//Determine whether it is complete (non-blocking)
 //IsDone 判断是否完成 (非阻塞)
 func (p *WorkerPool) IsDone() bool {
 	if p == nil || p.task == nil {
@@ -77,9 +81,10 @@ func (p *WorkerPool) IsDone() bool {
 	return len(p.task) == 0
 }
 
+//Has it been closed?
 //IsClosed 是否已经关闭
 func (p *WorkerPool) IsClosed() bool {
-	if atomic.LoadInt32(&p.closed) == 1 { // 已关闭
+	if atomic.LoadInt32(&p.closed) == 1 { // closed
 		return true
 	}
 	return false
@@ -88,7 +93,7 @@ func (p *WorkerPool) IsClosed() bool {
 func (p *WorkerPool) startQueue() {
 	for {
 		fn := p.waitingQueue.Pop().(TaskHandler)
-		if p.IsClosed() { // 已关闭
+		if p.IsClosed() { // closed
 			p.waitingQueue.Close()
 			break
 		}
@@ -100,21 +105,21 @@ func (p *WorkerPool) startQueue() {
 }
 
 func (p *WorkerPool) loop(maxWorkersCount int) {
-	go p.startQueue() //启动队列
+	go p.startQueue() //Startup queue , 启动队列
 
-	p.wg.Add(maxWorkersCount) // 最大的工作协程数
-	// 启动max个worker
+	p.wg.Add(maxWorkersCount) // Maximum number of work cycles,最大的工作协程数
+	//Start Max workers, 启动max个worker
 	for i := 0; i < maxWorkersCount; i++ {
 		go func() {
 			defer p.wg.Done()
 			// worker 开始干活
 			for wt := range p.task {
-				if wt == nil || atomic.LoadInt32(&p.closed) == 1 { //有err 立即返回
-					continue //需要先消费完了之后再返回，
+				if wt == nil || atomic.LoadInt32(&p.closed) == 1 { //returns immediately,有err 立即返回
+					continue //It needs to be consumed before returning.需要先消费完了之后再返回，
 				}
 
 				closed := make(chan struct{}, 1)
-				// 有设置超时,优先task 的超时
+				// Set timeout, priority task timeout.有设置超时,优先task 的超时
 				if p.timeout > 0 {
 					ct, cancel := context.WithTimeout(context.Background(), p.timeout)
 					go func() {
@@ -130,7 +135,7 @@ func (p *WorkerPool) loop(maxWorkersCount int) {
 					}()
 				}
 
-				err := wt() //真正执行的点
+				err := wt() //Points of Execution.真正执行的点
 				close(closed)
 				if err != nil {
 					select {
