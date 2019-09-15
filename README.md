@@ -1,5 +1,5 @@
 ## golang worker pool ,线程池 , 工作池
-### [中文](README_cn.md)
+### [中文说明](README_cn.md)
 
 - Concurrency limiting goroutine pool. 
 - Limits the concurrency of task execution, not the number of tasks queued. 
