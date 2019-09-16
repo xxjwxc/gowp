@@ -15,11 +15,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(10)             //设置最大线程数
+	wp := workpool.New(10)             //设置最大线程数
 	for i := 0; i < 20; i++ { //开启20个请求
 		ii := i
 		wp.Do(func() error {
@@ -45,11 +45,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(10)             //设置最大线程数
+	wp := workpool.New(10)             //设置最大线程数
 	for i := 0; i < 20; i++ { //开启20个请求
 		ii := i
 		wp.Do(func() error {
@@ -82,11 +82,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(5)              //设置最大线程数
+	wp := workpool.New(5)              //设置最大线程数
 	for i := 0; i < 10; i++ { //开启20个请求
 		//	ii := i
 		wp.Do(func() error {
@@ -114,11 +114,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(5)              //设置最大线程数
+	wp := workpool.New(5)              //设置最大线程数
 	for i := 0; i < 10; i++ { //开启20个请求
 		ii := i
 		wp.DoWait(func() error {

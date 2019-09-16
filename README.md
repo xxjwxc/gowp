@@ -17,11 +17,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(10)     //Set the maximum number of threads，设置最大线程数
+	wp := workpool.New(10)     //Set the maximum number of threads，设置最大线程数
 	for i := 0; i < 20; i++ { //开启20个请求
 		ii := i
 		wp.Do(func() error {
@@ -47,11 +47,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(10)             //Set the maximum number of threads，设置最大线程数
+	wp := workpool.New(10)             //Set the maximum number of threads，设置最大线程数
 	for i := 0; i < 20; i++ { 
 		ii := i
 		wp.Do(func() error {
@@ -84,11 +84,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(5)              //Set the maximum number of threads，设置最大线程数
+	wp := workpool.New(5)              //Set the maximum number of threads，设置最大线程数
 	for i := 0; i < 10; i++ { 
 		//	ii := i
 		wp.Do(func() error {
@@ -116,11 +116,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 )
 
 func main() {
-	wp := workerpool.New(5) //Set the maximum number of threads，设置最大线程数
+	wp := workpool.New(5) //Set the maximum number of threads，设置最大线程数
 	for i := 0; i < 10; i++ { 
 		ii := i
 		wp.DoWait(func() error {

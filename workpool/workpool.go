@@ -1,4 +1,4 @@
-package workerpool
+package workpool
 
 import (
 	"context"
@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/xxjwxc/public/myqueue"
-
-	"github.com/xxjwxc/public/mylog"
 )
 
 //New 注册工作池，并设置最大并发数
@@ -127,7 +125,7 @@ func (p *WorkerPool) loop(maxWorkersCount int) {
 						case <-ct.Done():
 							p.errChan <- ct.Err()
 							//if atomic.LoadInt32(&p.closed) != 1 {
-							mylog.Error(ct.Err())
+							//mylog.Error(ct.Err())
 							atomic.StoreInt32(&p.closed, 1)
 							cancel()
 						case <-closed:
@@ -141,7 +139,7 @@ func (p *WorkerPool) loop(maxWorkersCount int) {
 					select {
 					case p.errChan <- err:
 						//if atomic.LoadInt32(&p.closed) != 1 {
-						mylog.Error(err)
+						//mylog.Error(err)
 						atomic.StoreInt32(&p.closed, 1)
 					default:
 					}

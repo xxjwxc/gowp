@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/xxjwxc/gowp/workerpool"
+	"github.com/xxjwxc/gowp/workpool"
 	"github.com/xxjwxc/public/errors"
 )
 
 func tets() {
-	wp := workerpool.New(5) //设置最大线程数
+	wp := workpool.New(5) //设置最大线程数
 	wp.DoWait(func() error {
 		for j := 0; j < 10; j++ {
 			fmt.Println(fmt.Sprintf("%v->\t%v", 000, j))
