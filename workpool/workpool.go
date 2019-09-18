@@ -76,7 +76,7 @@ func (p *WorkerPool) IsDone() bool {
 		return true
 	}
 
-	return len(p.task) == 0
+	return p.waitingQueue.Len() == 0 && len(p.task) == 0
 }
 
 //IsClosed 是否已经关闭
