@@ -9,6 +9,7 @@ import (
 
 func tets() {
 	wp := workpool.New(5) //设置最大线程数
+	fmt.Println(wp.IsDone())
 	wp.DoWait(func() error {
 		for j := 0; j < 10; j++ {
 			fmt.Println(fmt.Sprintf("%v->\t%v", 000, j))
