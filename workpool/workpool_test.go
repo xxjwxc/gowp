@@ -8,18 +8,18 @@ import (
 	"github.com/xxjwxc/public/errors"
 )
 
-//template
+// template
 func TestWorkerPoolStart(t *testing.T) {
-	wp := New(10) //Set the maximum number of threads
+	wp := New(10) // Set the maximum number of threads
 	wp.SetTimeout(time.Millisecond)
-	for i := 0; i < 20; i++ { //Open 20 requests
+	for i := 0; i < 20; i++ { // Open 20 requests
 		ii := i
 		wp.Do(func() error {
 			for j := 0; j < 10; j++ {
 				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
 				time.Sleep(1 * time.Millisecond)
 			}
-			//time.Sleep(1 * time.Second)
+			// time.Sleep(1 * time.Second)
 			return nil
 		})
 	}
@@ -28,9 +28,9 @@ func TestWorkerPoolStart(t *testing.T) {
 	fmt.Println("down")
 }
 
-//Support for error return
+// Support for error return
 func TestWorkerPoolError(t *testing.T) {
-	wp := New(10) //Set the maximum number of threads
+	wp := New(10) // Set the maximum number of threads
 	for i := 0; i < 20; i++ {
 		ii := i
 		wp.Do(func() error {
@@ -43,8 +43,8 @@ func TestWorkerPoolError(t *testing.T) {
 			}
 
 			return nil
-			//time.Sleep(1 * time.Second)
-			//return errors.New("my test err")
+			// time.Sleep(1 * time.Second)
+			// return errors.New("my test err")
 		})
 	}
 
@@ -55,9 +55,9 @@ func TestWorkerPoolError(t *testing.T) {
 	fmt.Println("down")
 }
 
-//Determine whether completion (non-blocking) is placed in the workpool and wait for execution results
+// Determine whether completion (non-blocking) is placed in the workpool and wait for execution results
 func TestWorkerPoolDoWait(t *testing.T) {
-	wp := New(5) //Set the maximum number of threads
+	wp := New(5) // Set the maximum number of threads
 	for i := 0; i < 10; i++ {
 		ii := i
 		wp.DoWait(func() error {
@@ -70,8 +70,8 @@ func TestWorkerPoolDoWait(t *testing.T) {
 			}
 
 			return nil
-			//time.Sleep(1 * time.Second)
-			//return errors.New("my test err")
+			// time.Sleep(1 * time.Second)
+			// return errors.New("my test err")
 		})
 	}
 
@@ -82,14 +82,14 @@ func TestWorkerPoolDoWait(t *testing.T) {
 	fmt.Println("down")
 }
 
-//Determine whether it is complete (non-blocking)
+// Determine whether it is complete (non-blocking)
 func TestWorkerPoolIsDone(t *testing.T) {
-	wp := New(5) //Set the maximum number of threads
+	wp := New(5) // Set the maximum number of threads
 	for i := 0; i < 10; i++ {
 		//	ii := i
 		wp.Do(func() error {
 			for j := 0; j < 5; j++ {
-				//fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
+				// fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
 				time.Sleep(1 * time.Millisecond)
 			}
 			return nil
