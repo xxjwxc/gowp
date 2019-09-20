@@ -35,7 +35,7 @@ func (p *WorkPool) Do(fn TaskHandler) {
 		return
 	}
 	p.waitingQueue.Push(fn)
-	//p.task <- fn
+	// p.task <- fn
 }
 
 // DoWait Add to the workpool and wait for execution to complete before returning
@@ -97,17 +97,17 @@ func (p *WorkPool) startQueue() {
 }
 
 func (p *WorkPool) loop(maxWorkersCount int) {
-	go p.startQueue() //Startup queue
+	go p.startQueue() // Startup queue
 
 	p.wg.Add(maxWorkersCount) // Maximum number of work cycles
-	//Start Max workers
+	// Start Max workers
 	for i := 0; i < maxWorkersCount; i++ {
 		go func() {
 			defer p.wg.Done()
 			// workering
 			for wt := range p.task {
-				if wt == nil || atomic.LoadInt32(&p.closed) == 1 { //returns immediately
-					continue //It needs to be consumed before returning.
+				if wt == nil || atomic.LoadInt32(&p.closed) == 1 { // returns immediately
+					continue // It needs to be consumed before returning.
 				}
 
 				closed := make(chan struct{}, 1)
@@ -118,8 +118,8 @@ func (p *WorkPool) loop(maxWorkersCount int) {
 						select {
 						case <-ct.Done():
 							p.errChan <- ct.Err()
-							//if atomic.LoadInt32(&p.closed) != 1 {
-							//mylog.Error(ct.Err())
+							// if atomic.LoadInt32(&p.closed) != 1 {
+							// mylog.Error(ct.Err())
 							atomic.StoreInt32(&p.closed, 1)
 							cancel()
 						case <-closed:
@@ -127,13 +127,13 @@ func (p *WorkPool) loop(maxWorkersCount int) {
 					}()
 				}
 
-				err := wt() //Points of Execution
+				err := wt() // Points of Execution
 				close(closed)
 				if err != nil {
 					select {
 					case p.errChan <- err:
-						//if atomic.LoadInt32(&p.closed) != 1 {
-						//mylog.Error(err)
+						// if atomic.LoadInt32(&p.closed) != 1 {
+						// mylog.Error(err)
 						atomic.StoreInt32(&p.closed, 1)
 					default:
 					}
