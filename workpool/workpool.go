@@ -8,9 +8,8 @@ import (
 	"github.com/xxjwxc/public/myqueue"
 )
 
-//New 注册工作池，并设置最大并发数
-//new workpool and set the max number of concurrencies
-func New(max int) *WorkerPool {
+//New new workpool and set the max number of concurrencies
+func New(max int) *WorkerPool { // 注册工作池，并设置最大并发数
 	if max < 1 {
 		max = 1
 	}
@@ -25,14 +24,13 @@ func New(max int) *WorkerPool {
 	return p
 }
 
-//SetTimeout 设置超时时间
-func (p *WorkerPool) SetTimeout(timeout time.Duration) {
+//SetTimeout Setting timeout time
+func (p *WorkerPool) SetTimeout(timeout time.Duration) { //设置超时时间
 	p.timeout = timeout
 }
 
-//Do 添加到工作池，并立即返回
-//Add to the workpool and return immediately
-func (p *WorkerPool) Do(fn TaskHandler) {
+//Do Add to the workpool and return immediately
+func (p *WorkerPool) Do(fn TaskHandler) { // 添加到工作池，并立即返回
 	if p.IsClosed() { // 已关闭
 		return
 	}
@@ -40,9 +38,8 @@ func (p *WorkerPool) Do(fn TaskHandler) {
 	//p.task <- fn
 }
 
-//DoWait 添加到工作池，并等待执行完成之后再返回
-//Add to the workpool and wait for execution to complete before returning
-func (p *WorkerPool) DoWait(task TaskHandler) {
+//DoWait Add to the workpool and wait for execution to complete before returning
+func (p *WorkerPool) DoWait(task TaskHandler) { // 添加到工作池，并等待执行完成之后再返回
 	if p.IsClosed() { // closed
 		return
 	}
@@ -55,9 +52,8 @@ func (p *WorkerPool) DoWait(task TaskHandler) {
 	<-doneChan
 }
 
-//Wait 等待工作线程执行结束
-//Waiting for the worker thread to finish executing
-func (p *WorkerPool) Wait() error {
+//Wait Waiting for the worker thread to finish executing
+func (p *WorkerPool) Wait() error { // 等待工作线程执行结束
 	p.waitingQueue.Wait() //等待队列结束
 	close(p.task)
 	p.wg.Wait() //等待结束
@@ -69,9 +65,8 @@ func (p *WorkerPool) Wait() error {
 	}
 }
 
-//IsDone 判断是否完成 (非阻塞)
-//Determine whether it is complete (non-blocking)
-func (p *WorkerPool) IsDone() bool {
+//IsDone Determine whether it is complete (non-blocking)
+func (p *WorkerPool) IsDone() bool { // 判断是否完成 (非阻塞)
 	if p == nil || p.task == nil {
 		return true
 	}
@@ -79,9 +74,8 @@ func (p *WorkerPool) IsDone() bool {
 	return p.waitingQueue.Len() == 0 && len(p.task) == 0
 }
 
-//IsClosed 是否已经关闭
-//Has it been closed?
-func (p *WorkerPool) IsClosed() bool {
+//IsClosed Has it been closed?
+func (p *WorkerPool) IsClosed() bool { // 是否已经关闭
 	if atomic.LoadInt32(&p.closed) == 1 { // closed
 		return true
 	}
