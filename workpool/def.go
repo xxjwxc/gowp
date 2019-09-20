@@ -10,7 +10,7 @@ import (
 // TaskHandler Define function callbacks
 type TaskHandler func() error
 
-//WorkPool serves incoming connections via a pool of workers
+// WorkPool serves incoming connections via a pool of workers
 type WorkPool struct {
 	closed       int32
 	errChan      chan error    //error chan
