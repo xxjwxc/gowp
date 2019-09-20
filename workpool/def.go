@@ -12,12 +12,9 @@ type TaskHandler func() error
 
 //WorkPool serves incoming connections via a pool of workers
 type WorkPool struct {
-	//sync.Mutex
-	//maxWorkersCount int //最大的工作协程数
-	//start           sync.Once
 	closed       int32
-	errChan      chan error    //错误chan
-	timeout      time.Duration //最大超时时间
+	errChan      chan error    //error chan
+	timeout      time.Duration //max timeout
 	wg           sync.WaitGroup
 	task         chan TaskHandler
 	waitingQueue *myqueue.MyQueue
