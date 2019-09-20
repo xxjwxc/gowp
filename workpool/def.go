@@ -7,8 +7,8 @@ import (
 	"github.com/xxjwxc/public/myqueue"
 )
 
-// TaskHandler process .定义函数回调体
-type TaskHandler func() error
+// TaskHandler Define function callbacks
+type TaskHandler func() error //.定义函数回调体
 
 //WorkerPool serves incoming connections via a pool of workers
 // in FILO order, i.e. the most recently stopped worker will serve the next
