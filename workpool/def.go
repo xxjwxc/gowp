@@ -10,12 +10,8 @@ import (
 // TaskHandler Define function callbacks
 type TaskHandler func() error
 
-//WorkerPool serves incoming connections via a pool of workers
-// in FILO order, i.e. the most recently stopped worker will serve the next
-// incoming connection.
-//
-// Such a scheme keeps CPU caches hot (in theory).
-type WorkerPool struct {
+//WorkPool serves incoming connections via a pool of workers
+type WorkPool struct {
 	//sync.Mutex
 	//maxWorkersCount int //最大的工作协程数
 	//start           sync.Once
