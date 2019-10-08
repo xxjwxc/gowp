@@ -1,4 +1,7 @@
 ## golang worker pool ,线程池 , 工作池
+
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
+
 ### [中文说明](README_cn.md)
 
 - Concurrency limiting goroutine pool. 
