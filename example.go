@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/xxjwxc/gowp/workpool"
-	"github.com/xxjwxc/public/errors"
 )
 
 func tets() {
@@ -16,8 +15,8 @@ func tets() {
 		}
 
 		return nil
-		//time.Sleep(1 * time.Second)
-		//return errors.New("my test err")
+		// time.Sleep(1 * time.Second)
+		// return errors.New("my test err")
 	})
 
 	for i := 0; i < 10; i++ { //开启10个请求
@@ -25,9 +24,9 @@ func tets() {
 		wp.Do(func() error {
 			for j := 0; j < 5; j++ { //每次打印0-10的值
 				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
-				if ii == 1 {
-					return errors.Cause(errors.New("my test err")) //有err 立即返回
-				}
+				// if ii == 1 {
+				// 	return errors.Cause(errors.New("my test err")) //有err 立即返回
+				// }
 			}
 			return nil
 		})
