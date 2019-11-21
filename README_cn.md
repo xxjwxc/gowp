@@ -7,7 +7,16 @@
 
 - golang 工作池公共库
 
+## 安装
+
+安装最简单方法:
+
+```
+$ go get github.com/xxjwxc/gowp
+```
+
 ### 支持最大任务数, 放到工作池里面 并等待全部完成
+
 ```
 package main
 
