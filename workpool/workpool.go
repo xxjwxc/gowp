@@ -57,8 +57,7 @@ func (p *WorkPool) DoWait(task TaskHandler) { // 添加到工作池，并等待�
 func (p *WorkPool) Wait() error { // 等待工作线程执行结束
 	p.waitingQueue.Wait() // 等待队列结束
 	p.waitTask()          // wait que down
-	// close(p.task)
-	p.wg.Wait() // 等待结束
+	p.wg.Wait()           // 等待结束
 	select {
 	case err := <-p.errChan:
 		return err
@@ -106,6 +105,7 @@ func (p *WorkPool) waitTask() {
 			break
 		}
 	}
+	close(p.task)
 }
 
 func (p *WorkPool) loop(maxWorkersCount int) {
