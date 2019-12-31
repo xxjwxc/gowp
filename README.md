@@ -1,6 +1,8 @@
-## golang worker pool
-
+[![Build Status](https://travis-ci.org/xxjwxc/ginrpc.svg?branch=master)](https://travis-ci.org/xxjwxc/gowp)
+[![Go Report Card](https://goreportcard.com/badge/github.com/xxjwxc/gowp)](https://goreportcard.com/report/github.com/xxjwxc/gowp)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
+
+## golang worker pool
 
 ### [中文说明](README_cn.md)
 
