@@ -55,9 +55,11 @@ func (p *WorkPool) DoWait(task TaskHandler) { // 添加到工作池，并等待�
 
 // Wait Waiting for the worker thread to finish executing
 func (p *WorkPool) Wait() error { // 等待工作线程执行结束
-	p.waitingQueue.Wait() // 等待队列结束
-	p.waitTask()          // wait que down
-	p.wg.Wait()           // 等待结束
+	p.waitingQueue.Wait()  // 等待队列结束
+	p.waitingQueue.Close() //
+	p.waitTask()           // wait que down
+	close(p.task)
+	p.wg.Wait() // 等待结束
 	select {
 	case err := <-p.errChan:
 		return err
@@ -84,28 +86,35 @@ func (p *WorkPool) IsClosed() bool { // 是否已经关闭
 }
 
 func (p *WorkPool) startQueue() {
+	p.isQueTask = 1
 	for {
-		fn := p.waitingQueue.Pop().(TaskHandler)
+		tmp := p.waitingQueue.Pop()
 		if p.IsClosed() { // closed
 			p.waitingQueue.Close()
 			break
 		}
-		if fn != nil {
-			p.task <- fn
+		if tmp != nil {
+			fn := tmp.(TaskHandler)
+			if fn != nil {
+				p.task <- fn
+			}
 		} else {
 			break
 		}
+
 	}
+	atomic.StoreInt32(&p.isQueTask, 0)
 }
 
 func (p *WorkPool) waitTask() {
 	for {
 		runtime.Gosched() // 出让时间片
 		if p.IsDone() {
-			break
+			if atomic.LoadInt32(&p.isQueTask) == 0 {
+				break
+			}
 		}
 	}
-	close(p.task)
 }
 
 func (p *WorkPool) loop(maxWorkersCount int) {

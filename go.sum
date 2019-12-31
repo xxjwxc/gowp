@@ -205,6 +205,8 @@ github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c/go.mod h1:lB8K/P019DLNhe
 github.com/xdg/stringprep v1.0.0/go.mod h1:Jhud4/sHMO4oL310DaZAKk9ZaJ08SJfe+sJh0HrGL1Y=
 github.com/xxjwxc/public v0.0.0-20191231094841-02dff9c9e6dc h1:NkXYFgU/Nz+9Nxq85U4tPqlBdB42+hRqH/T510u9fyk=
 github.com/xxjwxc/public v0.0.0-20191231094841-02dff9c9e6dc/go.mod h1:jRdnSLrbRE/HOshXVrT89giQDRAOCGUer3yU996I2kE=
+github.com/xxjwxc/public v0.0.0-20191231095155-8f0478819bf3 h1:cjSJNHUY94XZixxjaTGxZJuR5cl32qsFG5+nLL5cd9Q=
+github.com/xxjwxc/public v0.0.0-20191231095155-8f0478819bf3/go.mod h1:jRdnSLrbRE/HOshXVrT89giQDRAOCGUer3yU996I2kE=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
