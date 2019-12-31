@@ -2,6 +2,7 @@ package workpool
 
 import (
 	"context"
+	"runtime"
 	"sync/atomic"
 	"time"
 
@@ -86,10 +87,10 @@ func (p *WorkPool) IsClosed() bool { // 是否已经关闭
 func (p *WorkPool) startQueue() {
 	for {
 		fn := p.waitingQueue.Pop().(TaskHandler)
-		//p.isQueTask = true
+		p.isQueTask = true
 		if p.IsClosed() { // closed
 			p.waitingQueue.Close()
-			//p.isQueTask = false
+			p.isQueTask = false
 			break
 		}
 
@@ -98,17 +99,17 @@ func (p *WorkPool) startQueue() {
 		} else {
 			break
 		}
-		//p.isQueTask = false
+		p.isQueTask = false
 	}
 }
 
 func (p *WorkPool) waitQueTask() {
-	// for {
-	// 	runtime.Gosched() // 出让时间片
-	// 	if !p.isQueTask {
-	// 		break
-	// 	}
-	// }
+	for {
+		runtime.Gosched() // 出让时间片
+		if !p.isQueTask {
+			break
+		}
+	}
 }
 
 func (p *WorkPool) loop(maxWorkersCount int) {
