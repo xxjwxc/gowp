@@ -95,6 +95,8 @@ func (p *WorkPool) startQueue() {
 
 		if fn != nil {
 			p.task <- fn
+		} else {
+			break
 		}
 		//p.isQueTask = false
 	}
