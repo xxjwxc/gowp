@@ -56,7 +56,7 @@ func (p *WorkPool) DoWait(task TaskHandler) { // 添加到工作池，并等待�
 // Wait Waiting for the worker thread to finish executing
 func (p *WorkPool) Wait() error { // 等待工作线程执行结束
 	p.waitingQueue.Wait() // 等待队列结束
-	p.waitQueTask()       // wait que down
+	p.waitTask()          // wait que down
 	close(p.task)
 	p.wg.Wait() // 等待结束
 	select {
@@ -87,26 +87,22 @@ func (p *WorkPool) IsClosed() bool { // 是否已经关闭
 func (p *WorkPool) startQueue() {
 	for {
 		fn := p.waitingQueue.Pop().(TaskHandler)
-		p.isQueTask = true
 		if p.IsClosed() { // closed
 			p.waitingQueue.Close()
-			p.isQueTask = false
 			break
 		}
-
 		if fn != nil {
 			p.task <- fn
 		} else {
 			break
 		}
-		p.isQueTask = false
 	}
 }
 
-func (p *WorkPool) waitQueTask() {
+func (p *WorkPool) waitTask() {
 	for {
 		runtime.Gosched() // 出让时间片
-		if !p.isQueTask {
+		if p.IsDone() {
 			break
 		}
 	}
