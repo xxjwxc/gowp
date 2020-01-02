@@ -24,7 +24,10 @@ func TestWorkerPoolStart(t *testing.T) {
 		})
 	}
 
-	wp.Wait()
+	err := wp.Wait()
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println("down")
 }
 

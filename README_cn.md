@@ -12,7 +12,7 @@
 - 无论排队多少任务，都不会阻止提交任务。
 - 通过队列支持[queue](https://github.com/xxjwxc/public/tree/master/myqueue)
 
-- golang 工作池公共库
+### golang 工作池公共库
 
 ## 安装
 
@@ -149,6 +149,41 @@ func main() {
 			return nil
 			//time.Sleep(1 * time.Second)
 			//return errors.New("my test err")
+		})
+	}
+
+	err := wp.Wait()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("down")
+}
+```
+
+### 支持超时退出
+
+```
+package main
+
+import (
+	"fmt"
+	"time"
+	"time"
+	"github.com/xxjwxc/gowp/workpool"
+)
+
+func main() {
+	wp := workpool.New(5)              // 设置最大线程数
+		wp.SetTimeout(time.Millisecond) // 设置超时时间
+	for i := 0; i < 10; i++ { // 开启20个请求
+		ii := i
+		wp.DoWait(func() error {
+			for j := 0; j < 5; j++ {
+				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
+				time.Sleep(1 * time.Second)
+			}
+
+			return nil
 		})
 	}
 

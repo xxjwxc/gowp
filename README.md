@@ -11,9 +11,9 @@
 - Concurrency limiting goroutine pool. 
 - Limits the concurrency of task execution, not the number of tasks queued. 
 - Never blocks submitting tasks, no matter how many tasks are queued.
+- Support timeout
 - Support through security queues [queue](https://github.com/xxjwxc/public/tree/master/myqueue)
 
-- golang workpool common library
 
 ## Installation
 
@@ -140,7 +140,7 @@ import (
 )
 
 func main() {
-	wp := workpool.New(5) //Set the maximum number of threads
+	wp := workpool.New(5) // Set the maximum number of threads
 	for i := 0; i < 10; i++ { 
 		ii := i
 		wp.DoWait(func() error {
@@ -155,6 +155,41 @@ func main() {
 			return nil
 			//time.Sleep(1 * time.Second)
 			//return errors.New("my test err")
+		})
+	}
+
+	err := wp.Wait()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("down")
+}
+```
+
+### Support timeout exit
+
+```
+package main
+
+import (
+	"fmt"
+	"time"
+	"time"
+	"github.com/xxjwxc/gowp/workpool"
+)
+
+func main() {
+	wp := workpool.New(5)              // Set the maximum number of threads
+		wp.SetTimeout(time.Millisecond) // set max timeout
+	for i := 0; i < 10; i++ { 
+		ii := i
+		wp.DoWait(func() error {
+			for j := 0; j < 5; j++ {
+				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
+				time.Sleep(1 * time.Second)
+			}
+
+			return nil
 		})
 	}
 
