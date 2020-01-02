@@ -6,7 +6,7 @@ require (
 	github.com/denisenkom/go-mssqldb v0.0.0-20191128021309-1d7a30a10f73 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/gookit/color v1.2.0 // indirect
+	github.com/gookit/color v1.2.1 // indirect
 	github.com/jinzhu/now v1.1.1 // indirect
 	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-sqlite3 v2.0.2+incompatible // indirect
