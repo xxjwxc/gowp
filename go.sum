@@ -126,8 +126,13 @@ github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1
 github.com/ugorji/go v1.1.4/go.mod h1:uQMGLiO92mf5W77hV/PUCpI3pbzQx3CRekS0kk+RGrc=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
+github.com/xxjwxc/gowp v0.0.0-20200603130651-4d7368b0e285/go.mod h1:yJ/fY5BorWARfDDsxBU/MyQTHc5MVyNcqBQQYD6MN0k=
 github.com/xxjwxc/public v0.0.0-20200603115833-341beff27850 h1:UCW8LJHTCOlkQt1+KUovAX1T7jAaUZch95yrIfKfZuU=
 github.com/xxjwxc/public v0.0.0-20200603115833-341beff27850/go.mod h1:fp3M+FEQrCgWD1fZ/PLwZkCTglf086OEhC9LcydAUnc=
+github.com/xxjwxc/public v0.0.0-20200603130802-6d8f40dd3f0d h1:z3oACUQzhFiJeCFjIoLPjityOddEK9xaOWlZxggUwHI=
+github.com/xxjwxc/public v0.0.0-20200603130802-6d8f40dd3f0d/go.mod h1:fp3M+FEQrCgWD1fZ/PLwZkCTglf086OEhC9LcydAUnc=
+github.com/xxjwxc/public v0.0.0-20200603141144-4001846f9957 h1:1JDmDFVQFpty205Kh9lxBAjjn9rG1eTYtdF/Q0dTh5w=
+github.com/xxjwxc/public v0.0.0-20200603141144-4001846f9957/go.mod h1:0BFWVHqt7nKW8MtIx7R7bOkoGQFFnKsaJeeVbkzY88E=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.uber.org/atomic v1.4.0/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
 go.uber.org/multierr v1.1.0/go.mod h1:wR5kodmAFQ0UK8QlbwjlSNy0Z68gJhDJUG5sjR94q/0=
