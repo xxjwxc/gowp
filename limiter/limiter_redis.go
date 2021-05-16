@@ -50,13 +50,17 @@ func (l *limiterRedis) Acquire(timeout int) (string, error) {
 	return token, err
 }
 
-// Acquire 释放一个
-func (l *limiterRedis) Destory(token string) {
+// Release 释放一个
+func (l *limiterRedis) Release(token string) {
 	l.push(token)
 }
 
 // GetTimeDuration 获取已超时时间
 func (l *limiterRedis) GetTimeDuration(token string) (time.Duration, error) {
+	if !l.isTsTimeout {
+		return 0, nil
+	}
+
 	res, err := redis.String(l.redisClient.Do("HGET", l.tokenTsHashName, token))
 	if err != nil {
 		return 0, err
@@ -88,7 +92,10 @@ func (l *limiterRedis) tryLock(timeout int) (bool, error) {
 func (l *limiterRedis) push(body string) (int, error) {
 	// to do: pipeline
 	res, err := redis.Int(l.redisClient.Do("RPUSH", l.queueName, body)) // 还回去
-	l.redisClient.Do("HDEL", l.tokenTsHashName, body)                   // 删除超时
+	if l.isTsTimeout {
+		l.redisClient.Do("HDEL", l.tokenTsHashName, body) // 删除超时
+	}
+
 	return res, err
 }
 
@@ -99,8 +106,10 @@ func (l *limiterRedis) pop() (string, error) {
 	if err == redis.ErrNil {
 		err = nil
 	}
+	if l.isTsTimeout {
+		l.redisClient.Do("HSET", l.tokenTsHashName, res, time.Now().Unix())
+	}
 
-	l.redisClient.Do("HSET", l.tokenTsHashName, res, time.Now().Unix())
 	return res, err
 }
 
@@ -110,10 +119,12 @@ func (l *limiterRedis) popBlock(timeout int) (string, error) {
 	// 允许队列为空值
 	if err == redis.ErrNil {
 		err = nil
+	} else if err != nil {
+		fmt.Println(err)
 	}
 
 	res, ok := res_map[l.queueName]
-	if ok {
+	if ok && l.isTsTimeout {
 		l.redisClient.Do("HSET", l.tokenTsHashName, res, time.Now().Unix())
 	}
 
