@@ -9,7 +9,7 @@ import (
 )
 
 type limiterRedis struct {
-	semaphore
+	mySemaphore
 	queueName       string // hash表中的队列名字
 	lockName        string // 初始化的时候只允许单个初始化，(锁住当前初始化)
 	tokenTsHashName string // 超时hash队列设置
