@@ -28,7 +28,7 @@ $ go get github.com/xxjwxc/gowp
 
 ## Example
 
-```
+```go
 package main
 
 import (
@@ -60,7 +60,7 @@ func main() {
 
 ### Support for error return
 
-```
+```go
 package main
 
 import (
@@ -97,7 +97,7 @@ func main() {
 
 ### Supporting judgement of completion (non-blocking)
 
-```
+```go
 package main
 
 import (
@@ -129,7 +129,7 @@ func main() {
 
 ### Support synchronous waiting for results
 
-```
+```go
 package main
 
 import (
@@ -168,7 +168,7 @@ func main() {
 
 ### Support timeout exit
 
-```
+```go
 package main
 
 import (
