@@ -25,7 +25,7 @@ $ go get github.com/xxjwxc/gowp
 
 ### 支持最大任务数, 放到工作池里面 并等待全部完成
 
-```
+```go
 package main
 
 import (
@@ -55,7 +55,8 @@ func main() {
 ```
 
 ### 支持错误返回
-```
+
+```go
 package main
 
 import (
@@ -92,7 +93,7 @@ func main() {
 
 ### 支持判断是否完成 (非阻塞)
 
-```
+```go
 package main
 
 import (
@@ -124,7 +125,7 @@ func main() {
 
 ### 支持同步等待结果
 
-```
+```go
 package main
 
 import (
@@ -163,7 +164,7 @@ func main() {
 
 ### 支持超时退出
 
-```
+```go
 package main
 
 import (
@@ -265,5 +266,4 @@ func main() {
 	wg.Wait()
 	fmt.Println("down")
 }
-
 ```
