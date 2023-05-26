@@ -11,7 +11,7 @@ func tets() {
 	fmt.Println(wp.IsDone())
 	wp.DoWait(func() error {
 		for j := 0; j < 10; j++ {
-			fmt.Println(fmt.Sprintf("%v->\t%v", 000, j))
+			fmt.Printf("%v->\t%v", 000, j)
 		}
 
 		return nil
@@ -23,7 +23,7 @@ func tets() {
 		ii := i
 		wp.Do(func() error {
 			for j := 0; j < 5; j++ { //每次打印0-10的值
-				fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
+				fmt.Printf("%v->\t%v", ii, j)
 				// if ii == 1 {
 				// 	return errors.Cause(errors.New("my test err")) //有err 立即返回
 				// }

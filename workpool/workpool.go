@@ -79,10 +79,7 @@ func (p *WorkPool) IsDone() bool { // 判断是否完成 (非阻塞)
 
 // IsClosed Has it been closed?
 func (p *WorkPool) IsClosed() bool { // 是否已经关闭
-	if atomic.LoadInt32(&p.closed) == 1 { // closed
-		return true
-	}
-	return false
+	return atomic.LoadInt32(&p.closed) == 1
 }
 
 func (p *WorkPool) startQueue() {
