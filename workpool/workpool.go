@@ -20,7 +20,7 @@ func New(max int) *WorkPool { // 注册工作池，并设置最大并发数
 		errChan:      make(chan error, 1),
 		waitingQueue: myqueue.New(),
 	}
-
+	p.wg.Add(max) // Maximum number of work cycles,最大的工作协程数
 	go p.loop(max)
 	return p
 }
@@ -127,7 +127,6 @@ func (p *WorkPool) waitTask() {
 func (p *WorkPool) loop(maxWorkersCount int) {
 	go p.startQueue() // Startup queue , 启动队列
 
-	p.wg.Add(maxWorkersCount) // Maximum number of work cycles,最大的工作协程数
 	// Start Max workers, 启动max个worker
 	for i := 0; i < maxWorkersCount; i++ {
 		go func() {
