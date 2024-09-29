@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/xxjwxc/gowp/branch/master/graph/badge.svg)](https://codecov.io/gh/xxjwxc/gowp)
 [![GoDoc](https://godoc.org/github.com/xxjwxc/gowp?status.svg)](https://godoc.org/github.com/xxjwxc/gowp)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
+<a href="https://hellogithub.com/repository/0f15a9cd05d14fec9e9ceafa2f5ae984" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=0f15a9cd05d14fec9e9ceafa2f5ae984&claim_uid=6IkmGoxiuN4LWFn&theme=small" alt="Featured｜HelloGitHub" /></a>
 
 ## golang worker pool
 
