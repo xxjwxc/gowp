@@ -104,3 +104,29 @@ func TestWorkerPoolIsDone(t *testing.T) {
 	fmt.Println(wp.IsDone())
 	fmt.Println("down")
 }
+
+// Determine whether it is closed when errors occur
+func TestWorkerPoolIsClosed(t *testing.T) {
+	wp := New(5) // Set the maximum number of threads
+	for i := 0; i < 10; i++ {
+		//    ii := i
+		wp.Do(func() error {
+			for j := 0; j < 5; j++ {
+				// fmt.Println(fmt.Sprintf("%v->\t%v", ii, j))
+				time.Sleep(1 * time.Millisecond)
+			}
+			return nil
+		})
+
+		if i == 1 {
+			wp.Do(func() error {
+				return errors.New("my test err") //return err to stop workpool
+			})
+		}
+
+		fmt.Println(wp.IsClosed())
+	}
+	wp.Wait()
+	fmt.Println(wp.IsClosed())
+	fmt.Println("down")
+}
