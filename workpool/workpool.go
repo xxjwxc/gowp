@@ -39,6 +39,21 @@ func (p *WorkPool) Do(fn TaskHandler) { // 添加到工作池，并立即返回
 	// p.task <- fn
 }
 
+// Do Add the task to the workpool and return immediately with a deadline, if the deadline is exceeded, the task will be aborted
+func (p *WorkPool) DoBefore(fn TaskHandler, time time.Duration) {
+	ctx, cancel := context.WithTimeout(context.Background(), time)
+	p.Do(func() error {
+		select {
+		case <-ctx.Done():
+			cancel()
+			return ctx.Err()
+		default:
+			return fn()
+		}
+	},
+	)
+}
+
 // DoWait Add to the workpool and wait for execution to complete before returning
 func (p *WorkPool) DoWait(task TaskHandler) { // 添加到工作池，并等待执行完成之后再返回
 	if p.IsClosed() { // closed

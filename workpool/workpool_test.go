@@ -2,9 +2,11 @@ package workpool
 
 import (
 	"fmt"
+	"sync/atomic"
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/xxjwxc/public/errors"
 )
 
@@ -103,4 +105,24 @@ func TestWorkerPoolIsDone(t *testing.T) {
 	wp.Wait()
 	fmt.Println(wp.IsDone())
 	fmt.Println("down")
+}
+
+func TestDoBefore(t *testing.T) {
+	wp := New(1) // Set the maximum number of threads
+
+	var res int32 = 0
+
+	wp.Do(func() error {
+		time.Sleep(5 * time.Second)
+		atomic.AddInt32(&res, 1)
+		return nil
+	})
+
+	wp.DoBefore(func() error {
+		atomic.AddInt32(&res, 1)
+		return nil
+	}, 5*time.Second)
+
+	wp.Wait()
+	assert.Equal(t, int32(1), res)
 }
